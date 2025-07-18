@@ -2,37 +2,67 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Travel Form - Urdu AI</title>
+  <title>Travel Booking Form</title>
+  <style>
+    body { font-family: Arial; background-color: #f5f5f5; padding: 20px; }
+    .form-container { background: white; max-width: 600px; margin: auto; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px #ccc; }
+    h2 { text-align: center; color: #333; }
+    input, textarea, select, button {
+      width: 100%; margin-top: 10px; padding: 10px; border-radius: 5px; border: 1px solid #ccc;
+    }
+    button { background-color: #28a745; color: white; font-weight: bold; border: none; cursor: pointer; }
+    button:hover { background-color: #218838; }
+  </style>
 </head>
 <body>
+
+<div class="form-container">
   <h2>Travel Booking Form</h2>
   <form id="travelForm">
-    <input type="text" name="name" placeholder="Full Name" required><br>
-    <input type="tel" name="phone" placeholder="Mobile Number" required><br>
-    <input type="email" name="email" placeholder="Email Address" required><br>
+    <input type="text" name="name" placeholder="Full Name" required>
+    <input type="tel" name="phone" placeholder="Mobile Number" required>
+    <input type="email" name="email" placeholder="Email Address" required>
+    <input type="text" name="destination" placeholder="Travel Destination" required>
+    <input type="date" name="travelDate" required>
+    <input type="date" name="returnDate" required>
+    <input type="number" name="travelers" placeholder="Number of Travelers" required>
+    <select name="flight" required>
+      <option value="">Include Flight?</option>
+      <option value="Yes">Yes</option>
+      <option value="No">No</option>
+    </select>
+    <select name="hotel" required>
+      <option value="">Hotel Category</option>
+      <option>3 Star</option>
+      <option>4 Star</option>
+      <option>5 Star</option>
+    </select>
+    <textarea name="notes" placeholder="Additional Notes"></textarea>
     <button type="submit">Submit</button>
   </form>
+</div>
 
-  <script>
-    document.getElementById("travelForm").addEventListener("submit", function(e) {
-      e.preventDefault();
-      const formData = new FormData(this);
-      const data = {};
-      formData.forEach((v, k) => data[k] = v);
+<script>
+  document.getElementById("travelForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const formData = new FormData(this);
+    const data = {};
+    formData.forEach((v, k) => data[k] = v);
 
-      fetch("https://script.google.com/macros/s/AKfycbw4OYj2cjJWk33uI3cDkRdDmVgxzt2LDyNn9HBz4eoIm9ytGpdonii4SIkeX30-qD6y/exec", {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: { "Content-Type": "application/json" }
-      })
-      .then(r => r.text())
-      .then(response => {
-        alert("✅ Form Submitted!");
-        window.open(`https://wa.me/${data.phone.replace(/^0/, '92')}?text=Hello ${data.name}, your travel request is received!`, '_blank');
-        this.reset();
-      })
-      .catch(err => alert("❌ Error: " + err));
-    });
-  </script>
+    fetch("https://script.google.com/macros/s/AKfycbw4OYj2cjJWk33uI3cDkRdDmVgxzt2LDyNn9HBz4eoIm9ytGpdonii4SIkeX30-qD6y/exec", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: { "Content-Type": "application/json" }
+    })
+    .then(r => r.text())
+    .then(response => {
+      alert("✅ Form Submitted!");
+      window.open(`https://wa.me/${data.phone.replace(/^0/, '92')}?text=Hello ${data.name}, your travel request has been received. Our team will contact you shortly.`, '_blank');
+      this.reset();
+    })
+    .catch(err => alert("❌ Error: " + err));
+  });
+</script>
+
 </body>
 </html>
